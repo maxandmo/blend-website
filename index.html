@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blend Ltd — Barbers, Tattoos &amp; Beauty</title>
+<meta name="description" content="Blend Ltd — barbershop, tattoo studio and beauty room on Wilbraham Street, Birkenhead. Cuts, beards, custom tattoos, brows, lashes and waxing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Archivo:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   STEADY HAND — design tokens
+   Palette borrowed from traditional tattoo flash:
+   bone paper, ink black, flash red, bottle green, ochre.
+   ============================================================ */
+:root{
+  --ink:        #0D0D0D;
+  --ink-2:      #191919;
+  --ink-3:      #2C2C2C;
+  --bone:       #FFFFFF;
+  --bone-2:     #F2F2F2;
+  --bone-3:     #E3E3E3;
+  --red:        #0D0D0D;   /* emphasis on light backgrounds */
+  --red-dark:   #000000;
+  --green:      #4A4A4A;
+  --ochre:      #FFFFFF;   /* emphasis on dark backgrounds */
+  --rule:       rgba(0,0,0,.14);
+  --rule-light: rgba(255,255,255,.20);
+
+  --display: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
+  --body:    "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:    "Space Mono", "SFMono-Regular", Consolas, monospace;
+
+  --pad:  clamp(20px, 5vw, 64px);
+  --gap:  clamp(24px, 4vw, 56px);
+  --sect: clamp(56px, 9vw, 128px);
+  --maxw: 1240px;
+  --radius: 2px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bone);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.05;font-weight:600}
+p{margin:0 0 1em}
+p:last-child{margin-bottom:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* ---------- type ---------- */
+.display{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--red);opacity:.55;margin:0 0 18px;
+}
+.eyebrow--light{color:var(--ochre)}
+.h1{font-family:var(--display);font-weight:600;font-size:clamp(48px,10.5vw,112px);line-height:.92;letter-spacing:-.02em}
+.h2{font-family:var(--display);font-weight:600;font-size:clamp(31px,5.2vw,56px);line-height:1.02;letter-spacing:-.015em}
+.h3{font-family:var(--display);font-weight:600;font-size:clamp(21px,2.6vw,28px);letter-spacing:-.005em}
+.lede{font-size:clamp(17px,2vw,20px);line-height:1.6;max-width:56ch;font-weight:400}
+.small{font-size:14px;line-height:1.6}
+.mono{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.muted{opacity:.72}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+.section{padding-block:var(--sect)}
+.section--ink{background:var(--ink);color:var(--bone)}
+.section--ink .eyebrow{color:var(--ochre);opacity:.6}
+.section--tint{background:var(--bone-2)}
+.rule{height:1px;background:var(--rule);border:0;margin:0}
+.section--ink .rule{background:var(--rule-light)}
+.head{max-width:62ch;margin-bottom:var(--gap)}
+.head .h2{margin-bottom:14px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  padding:15px 26px;border:1.5px solid var(--ink);border-radius:var(--radius);
+  background:var(--ink);color:var(--bone);text-decoration:none;cursor:pointer;
+  transition:background .18s ease,color .18s ease,transform .18s ease,border-color .18s ease;
+}
+.btn:hover{background:var(--ink-3);border-color:var(--ink-3);color:#fff;transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);border-color:var(--ink);color:var(--bone)}
+.btn--onink{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.btn--onink:hover{background:var(--bone-3);border-color:var(--bone-3);color:var(--ink)}
+.btn--ghost-onink{background:transparent;color:var(--bone);border-color:rgba(255,255,255,.5)}
+.btn--ghost-onink:hover{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+:focus-visible{outline:3px solid var(--ochre);outline-offset:3px}
+
+/* ---------- header ---------- */
+.header{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--bone)}
+.header__inner{
+  max-width:var(--maxw);margin:0 auto;padding:14px var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--bone)}
+.brand__mark{width:44px;height:44px;flex:none}
+.brand__text{display:flex;flex-direction:column;gap:5px}
+.brand__name{display:block;font-family:var(--display);font-weight:600;font-size:21px;line-height:1;letter-spacing:.02em;white-space:nowrap}
+.brand__sub{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+.nav [data-mobile-only]{display:none}
+.nav{display:flex;align-items:center;gap:30px}
+.nav__link{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;padding:6px 0;position:relative;color:var(--bone);opacity:.8;
+}
+.nav__link::after{
+  content:"";position:absolute;left:0;right:100%;bottom:0;height:1.5px;
+  background:var(--ochre);transition:right .25s ease;
+}
+.nav__link:hover{opacity:1}
+.nav__link:hover::after,.nav__link[aria-current="page"]::after{right:0}
+.nav__link[aria-current="page"]{opacity:1;color:var(--ochre)}
+.header .btn{padding:12px 20px}
+.burger{display:none;background:none;border:0;padding:10px;cursor:pointer;color:var(--bone)}
+.burger span{display:block;width:24px;height:1.5px;background:currentColor;margin:5px 0;transition:transform .25s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+@media (max-width:900px){
+  .burger{display:block}
+  .header .header__inner > .btn{display:none}
+  .nav{
+    position:fixed;inset:64px 0 0;background:var(--ink);
+    flex-direction:column;align-items:flex-start;justify-content:flex-start;
+    gap:0;padding:24px var(--pad) 48px;overflow-y:auto;
+    transform:translateY(-12px);opacity:0;pointer-events:none;transition:opacity .22s ease,transform .22s ease;
+  }
+  .nav[data-open="true"]{opacity:1;transform:none;pointer-events:auto}
+  .nav__link{font-family:var(--display);font-weight:600;font-size:32px;letter-spacing:0;text-transform:none;
+    padding:16px 0;width:100%;border-bottom:1px solid var(--rule-light);opacity:1}
+  .nav__link::after{display:none}
+  .nav [data-mobile-only]{display:inline-flex}
+  .nav .btn{margin-top:28px;width:100%;justify-content:center}
+}
+
+/* ---------- booking policy modal ---------- */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal[data-open="true"]{display:flex}
+.modal__scrim{position:absolute;inset:0;background:rgba(0,0,0,.72)}
+.modal__card{
+  position:relative;background:var(--bone);color:var(--ink);max-width:580px;width:100%;
+  max-height:86vh;overflow-y:auto;padding:clamp(26px,4vw,44px);border:1px solid var(--ink);
+  animation:modalIn .32s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.modal__card .h3{margin-bottom:16px}
+.modal__list{margin:0 0 24px;display:grid;gap:14px}
+.modal__list li{display:grid;grid-template-columns:auto 1fr;gap:12px;font-size:15.5px;line-height:1.55}
+.modal__list li::before{content:"";width:7px;height:7px;background:var(--ink);margin-top:9px}
+.modal__close{position:absolute;top:14px;right:14px;background:none;border:0;cursor:pointer;padding:8px;line-height:0}
+.modal__close svg{width:20px;height:20px}
+
+/* ---------- open / closed bar ---------- */
+.status{display:none;background:var(--bone-2);border-bottom:1px solid var(--rule)}
+.status[data-show="true"]{display:block}
+.status__inner{display:flex;align-items:center;justify-content:center;gap:11px;padding-block:11px}
+.status__dot{width:9px;height:9px;border-radius:50%;background:#8C525C;flex:none;position:relative}
+.status__dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid currentColor;opacity:0}
+.status[data-state="open"] .status__dot{background:#3F7C5D;color:#3F7C5D}
+.status[data-state="open"] .status__dot::after{opacity:.45;animation:pulse 2.6s ease-out infinite}
+.status[data-state="soon"] .status__dot{background:#C6A15F}
+@keyframes pulse{0%{transform:scale(.7);opacity:.55}100%{transform:scale(1.5);opacity:0}}
+.status__text{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;text-align:center}
+.status__text b{font-weight:700}
+.status[data-state="open"] .status__text b{color:#2F6B4C}
+.status[data-state="closed"] .status__text b,.status[data-state="soon"] .status__text b{color:#8C525C}
+
+/* ---------- hero ---------- */
+.hero{background:var(--bone);padding-block:clamp(48px,7vw,96px) 0;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--gap);align-items:center}
+.hero .h1{margin-bottom:22px}
+.hero .h1 em{font-style:normal;color:#8C8C8C;display:block}
+.hero__panel{
+  position:relative;background:var(--ink);border-radius:var(--radius);
+  aspect-ratio:480/848;max-height:76vh;margin-inline:auto;
+  display:grid;place-items:center;overflow:hidden;
+}
+.hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero__scrim{position:absolute;inset:0;background:rgba(0,0,0,.42);z-index:1}
+.hero__seal{position:relative;z-index:2;width:min(78%,340px);height:auto}
+.hero__panel > svg{width:100%;height:100%}
+.hero__tag{
+  position:absolute;left:0;bottom:24px;z-index:3;background:var(--red);color:#fff;
+  font-family:var(--mono);font-size:clamp(8px,1.05vw,10px);letter-spacing:.1em;text-transform:uppercase;
+  padding:9px 14px;white-space:nowrap;
+}
+.ticker{
+  margin-top:clamp(40px,6vw,72px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  overflow:hidden;padding:14px 0;white-space:nowrap;
+}
+.ticker__track{display:inline-flex;gap:44px;animation:slide 38s linear infinite}
+.ticker span{font-family:var(--mono);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- seal (signature element) ---------- */
+.seal-spin{transform-origin:100px 100px;animation:spin 44s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.seal-text{font-family:var(--mono);font-size:10.6px;letter-spacing:.21em;fill:var(--ochre);text-transform:uppercase}
+
+/* ---------- two-craft cards ---------- */
+.crafts{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.craft{
+  border:1px solid var(--rule);background:var(--bone);padding:clamp(24px,3.5vw,40px);
+  display:flex;flex-direction:column;gap:18px;transition:transform .2s ease,box-shadow .2s ease;
+}
+.craft:hover{transform:translateY(-4px);box-shadow:14px 14px 0 rgba(0,0,0,.08)}
+.craft__icon{width:64px;height:64px;color:var(--red)}
+.invert{filter:invert(1)}
+.craft__list{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px}
+.craft__list li{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--rule);padding:6px 11px;
+}
+
+/* ---------- price list ---------- */
+.pricelist{border-top:1px solid var(--rule)}
+.section--ink .pricelist{border-color:var(--rule-light)}
+.price{
+  display:grid;grid-template-columns:1fr auto;gap:8px 20px;align-items:baseline;
+  padding:20px 0;border-bottom:1px solid var(--rule);
+}
+.section--ink .price{border-color:var(--rule-light)}
+.price__name{font-family:var(--display);font-weight:600;font-size:21px;text-decoration:none}
+a.price__name:hover{text-decoration:underline;text-underline-offset:6px}
+.price__book{grid-column:1/2;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);text-decoration:none;justify-self:start}
+.price__book::after{content:" \2192"}
+.price__book:hover{text-decoration:underline;text-underline-offset:4px}
+.pricelist__head{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
+.price__meta{grid-column:1/2;font-size:15px;opacity:.75;line-height:1.5}
+.price__fig{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--red)}
+.section--ink .price__fig{color:var(--ochre)}
+.price__fig small{font-size:11px;letter-spacing:.1em;display:block;text-align:right;opacity:.7;font-weight:400;color:inherit}
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:0 var(--gap)}
+
+/* ---------- flash sheet (signature, tattoo page) ---------- */
+.flash{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--rule-light);
+}
+.flash__cell{
+  position:relative;aspect-ratio:1;display:grid;place-items:center;
+  border-right:1px solid var(--rule-light);border-bottom:1px solid var(--rule-light);
+  padding:18px;transition:background .25s ease;
+}
+.flash__cell:nth-child(4n){border-right:0}
+.flash__cell:nth-last-child(-n+4){border-bottom:0}
+.flash__cell svg{width:76%;height:76%;color:var(--bone);transition:color .25s ease,transform .35s ease}
+.flash__cell:hover{background:var(--ink-2)}
+.flash__cell:hover svg{transform:scale(1.06) rotate(-2deg)}
+.flash__label{
+  position:absolute;left:14px;bottom:10px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;opacity:.45;
+}
+.flash__cell:hover .flash__label{opacity:.9;color:var(--ochre)}
+
+/* ---------- steps ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);counter-reset:step}
+.step{border-top:2px solid var(--red);padding-top:20px}
+.step__no{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--red);margin-bottom:10px}
+.step .h3{margin-bottom:10px}
+
+/* ---------- people ---------- */
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.team{display:grid;gap:14px}
+.team-group__title{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.55;padding-bottom:10px;border-bottom:1px solid var(--rule-light)}
+.team-group:not(:first-child){margin-top:26px}
+.team-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2.5vw,30px);margin-bottom:6px}
+.member{margin:0;text-align:center}
+.avatar{aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--ink-2);border:1px solid var(--rule-light);margin-bottom:14px}
+.avatar svg,.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.member__name{display:block;font-family:var(--display);font-weight:600;font-size:19px}
+.member__role{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin-top:5px}
+.member__note{display:block;font-size:13.5px;line-height:1.45;opacity:.62;margin-top:8px}
+.person__photo{background:var(--ink-2);aspect-ratio:3/4;overflow:hidden;margin-bottom:18px}
+.person__photo svg{width:100%;height:100%}
+.person__role{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:8px 0 10px}
+.section--ink .person__role{color:var(--ochre)}
+
+/* ---------- reviews ---------- */
+.reviews{position:relative;max-width:820px;margin:0 auto;text-align:center}
+.review{display:none}
+.review[data-active="true"]{display:block;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.review__stars{display:flex;justify-content:center;gap:5px;margin-bottom:22px;color:var(--ochre)}
+.review__stars svg{width:19px;height:19px}
+.review__quote{font-family:var(--display);font-weight:400;font-style:italic;font-size:clamp(22px,3.1vw,32px);line-height:1.35;margin-bottom:22px}
+.review__who{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.65}
+.dots{display:flex;gap:9px;justify-content:center;margin-top:34px}
+.dot{width:9px;height:9px;border-radius:50%;border:1px solid currentColor;background:none;cursor:pointer;padding:0;opacity:.45}
+.dot[aria-selected="true"]{background:currentColor;opacity:1}
+
+/* ---------- gallery ---------- */
+.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.gallery figure{margin:0;background:var(--ink-2);overflow:hidden;position:relative;aspect-ratio:1}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.gallery figure:hover img{transform:scale(1.04)}
+.gallery svg{width:100%;height:100%;transition:transform .4s ease}
+.gallery figure:hover svg{transform:scale(1.04)}
+.gallery figcaption{
+  position:absolute;left:0;bottom:0;right:0;padding:12px 14px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bone);background:linear-gradient(transparent,rgba(0,0,0,.85));
+}
+.gallery .tall{grid-row:span 2}
+
+/* ---------- visit / hours ---------- */
+.visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+.hours{border-top:1px solid var(--rule-light)}
+.hours__row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--rule-light);font-size:15px}
+.hours__row[data-closed="true"]{opacity:.45}
+.hours__day{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.hours__time{font-family:var(--mono);font-size:13px}
+.contact-list{display:grid;gap:14px;margin-top:26px}
+.contact-list a{display:inline-flex;gap:12px;align-items:center;text-decoration:none;font-size:16px}
+.contact-list svg{width:19px;height:19px;flex:none;color:var(--ochre)}
+.contact-list a:hover span{text-decoration:underline;text-underline-offset:4px}
+.map{background:var(--ink-2);aspect-ratio:4/3;overflow:hidden;border:1px solid var(--rule-light)}
+.map svg,.map iframe{width:100%;height:100%;border:0;display:block}
+.map__link{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre);text-decoration:none}
+.map__link::after{content:" \2192"}
+.map__link:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- form ---------- */
+.form{display:grid;gap:16px;max-width:620px}
+.field{display:grid;gap:7px}
+.field label{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.field input,.field textarea,.field select{
+  font-family:var(--body);font-size:16px;padding:13px 14px;color:inherit;
+  background:rgba(255,255,255,.06);border:1px solid var(--rule-light);border-radius:var(--radius);
+}
+.section:not(.section--ink) .field input,
+.section:not(.section--ink) .field textarea,
+.section:not(.section--ink) .field select{background:rgba(0,0,0,.03);border-color:var(--rule)}
+.field textarea{min-height:130px;resize:vertical}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form__note{font-family:var(--mono);font-size:11px;letter-spacing:.08em;opacity:.55;line-height:1.6}
+.form__done{
+  border:1.5px solid var(--ochre);padding:24px;display:none;
+}
+.form__done[data-show="true"]{display:block;animation:fade .4s ease}
+
+/* ---------- accordion ---------- */
+details{border-bottom:1px solid var(--rule);padding:18px 0}
+details summary{
+  cursor:pointer;list-style:none;font-family:var(--display);font-weight:600;font-size:21px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-family:var(--mono);color:var(--red);font-size:22px}
+details[open] summary::after{content:"–"}
+details p{margin-top:14px;max-width:70ch}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--red);color:#fff;padding:clamp(30px,5vw,60px);
+  display:flex;flex-wrap:wrap;gap:26px;align-items:center;justify-content:space-between;
+}
+.callout .h2{max-width:18ch}
+.callout .btn{background:#fff;color:var(--ink);border-color:#fff}
+.callout .btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* ---------- footer ---------- */
+.footer{background:var(--ink);color:var(--bone);padding-block:clamp(48px,6vw,80px) 32px}
+.footer__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:var(--gap);margin-bottom:48px}
+.footer__hours li{display:flex;justify-content:space-between;gap:18px;max-width:230px;margin-bottom:8px}
+.footer__hours .day{opacity:.82}
+.footer__hours .time{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.footer__hours li[data-closed="true"]{opacity:.45}
+.footer h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:18px}
+.footer li{margin-bottom:11px;font-size:15px}
+.footer a{text-decoration:none;opacity:.82}
+.footer a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.footer__base{
+  border-top:1px solid var(--rule-light);padding-top:24px;
+  display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;
+}
+
+/* ---------- page routing + reveal ---------- */
+.js .page{display:none}
+.js .page[data-active="true"]{display:block}
+.js [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.js [data-reveal].is-in{opacity:1;transform:none}
+.page-anchor{display:block;height:0;overflow:hidden}
+
+/* ---------- responsive ---------- */
+@media (max-width:1000px){
+  .hero__grid,.crafts,.visit-grid{grid-template-columns:1fr}
+  .crafts{gap:32px}
+  .hero__panel{max-height:70vh;width:min(100%,420px)}
+  .steps,.people{grid-template-columns:1fr;gap:32px}
+  .gallery{grid-template-columns:repeat(3,1fr)}
+  .team-row{grid-template-columns:repeat(3,1fr)}
+  .cols-2{grid-template-columns:1fr}
+  .footer__grid{grid-template-columns:1fr 1fr}
+  .flash{grid-template-columns:repeat(3,1fr)}
+  .flash__cell:nth-child(4n){border-right:1px solid var(--rule-light)}
+  .flash__cell:nth-child(3n){border-right:0}
+  .flash__cell:nth-last-child(-n+4){border-bottom:1px solid var(--rule-light)}
+  .flash__cell:nth-last-child(-n+2){border-bottom:0}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .gallery{grid-template-columns:1fr 1fr;gap:10px}
+  .team-row{grid-template-columns:repeat(2,1fr)}
+  .member__name{font-size:17px}
+  .gallery .tall{grid-row:span 1}
+  .flash{grid-template-columns:repeat(2,1fr)}
+  .flash__cell:nth-child(3n){border-right:1px solid var(--rule-light)}
+  .flash__cell:nth-child(2n){border-right:0}
+  .field-row{grid-template-columns:1fr}
+  .footer__grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SVG SPRITE (line-art flash motifs + icons) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <g id="i-razor" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 62 C24 40 46 20 78 14 l6 8 C60 26 38 44 26 66 Z"/>
+    <path d="M26 66 l-8 14 c-2 4 1 8 5 7 l60-16"/>
+    <path d="M83 71 l14-4"/>
+    <circle cx="24" cy="70" r="2.4" fill="currentColor" stroke="none"/>
+  </g>
+  <g id="i-machine">
+    <g transform="translate(-6 -6) rotate(-32 50 50)" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M40 26 a10 10 0 0 1 20 0 V54 H40 Z"/>
+      <path d="M41 34 h18"/>
+      <path d="M40 54 h20 v6 h-20 Z"/>
+      <path d="M45 54 v6 M50 54 v6 M55 54 v6"/>
+      <path d="M42 60 L46 76 h8 L58 60"/>
+      <path d="M50 76 v9" stroke-width="2"/>
+    </g>
+    <g fill="currentColor" stroke="none"><circle cx="68" cy="81" r="2.1"/><circle cx="75" cy="87" r="1.5"/></g>
+  </g>
+  </g>
+  <g id="i-rose" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="40" r="9"/>
+    <path d="M50 22 a18 18 0 0 1 18 18 a18 18 0 0 1-18 18 a18 18 0 0 1-18-18 a18 18 0 0 1 18-18"/>
+    <path d="M50 12 a28 28 0 0 1 28 28 a28 28 0 0 1-28 28 a28 28 0 0 1-28-28 a28 28 0 0 1 28-28"/>
+    <path d="M50 68 v22"/><path d="M50 78 c-10 0-16-6-18-14 8 0 16 4 18 14"/>
+    <path d="M50 84 c10 0 16-6 18-14-8 0-16 4-18 14"/>
+  </g>
+  <g id="i-dagger" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 8 l12 40 -12 14 -12-14 Z"/><path d="M26 52 h48"/>
+    <path d="M46 56 h8 v22 h-8 Z"/><circle cx="50" cy="86" r="7"/>
+    <path d="M50 20 v34"/>
+  </g>
+  <g id="i-anchor" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="18" r="8"/><path d="M50 26 v58"/><path d="M30 40 h40"/>
+    <path d="M20 58 c0 20 14 30 30 30 s30-10 30-30"/>
+    <path d="M20 58 l-8 6 M80 58 l8 6"/>
+  </g>
+  <g id="i-moth" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 30 v46"/><path d="M50 30 l-8-12 M50 30 l8-12"/>
+    <path d="M50 34 c-16-14-34-8-34 10 s16 26 34 20"/>
+    <path d="M50 34 c16-14 34-8 34 10 s-16 26-34 20"/>
+    <circle cx="30" cy="46" r="4"/><circle cx="70" cy="46" r="4"/>
+  </g>
+  <g id="i-snake" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 84 c22 0 22-18 0-18 s-22-18 0-18 c18 0 26-4 30-14"/>
+    <path d="M52 34 a12 12 0 1 1 24 0 c0 10-10 12-16 18"/>
+    <circle cx="66" cy="30" r="2.6" fill="currentColor" stroke="none"/>
+    <path d="M60 44 l-4 8 4-3 4 3 Z"/>
+  </g>
+  <g id="i-eye" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 50 c16-22 64-22 80 0 -16 22-64 22-80 0 Z"/>
+    <circle cx="50" cy="50" r="14"/><circle cx="50" cy="50" r="5" fill="currentColor" stroke="none"/>
+    <path d="M50 22 v-10 M22 30 l-6-8 M78 30 l6-8"/>
+  </g>
+  <g id="i-clippers" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="34" y="26" width="32" height="52" rx="6"/>
+    <path d="M34 26 h32"/><path d="M32 22 h36"/>
+    <path d="M32 16 h36 M36 16 v6 M44 16 v6 M52 16 v6 M60 16 v6 M68 16 v6"/>
+    <path d="M42 40 h16 M42 50 h16"/>
+  </g>
+  <g id="i-sprig" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 92 V40"/>
+    <path d="M50 78 C38 78 30 70 30 60 c12 0 20 8 20 18"/>
+    <path d="M50 66 C62 66 70 58 70 48 c-12 0-20 8-20 18"/>
+    <path d="M50 54 C38 54 30 46 30 36 c12 0 20 8 20 18"/>
+    <circle cx="50" cy="26" r="11"/><circle cx="50" cy="26" r="4"/>
+  </g>
+  <g id="i-scissors" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="27" cy="80" r="9"/><circle cx="73" cy="80" r="9"/>
+    <path d="M33 73 C40 66 46 60 51 53"/><path d="M67 73 C60 66 54 60 49 53"/>
+    <path d="M68 12 L53 50 L47 47 Z"/><path d="M32 12 L47 50 L53 47 Z"/>
+    <circle cx="50" cy="49" r="2.4" fill="currentColor" stroke="none"/>
+  </g>
+  <g id="i-star" fill="currentColor" stroke="none">
+    <path d="M12 1.6l3.1 6.3 7 1-5 4.9 1.2 6.9-6.3-3.3-6.3 3.3 1.2-6.9-5-4.9 7-1z"/>
+  </g>
+  <g id="i-pin" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="9" r="2.6"/>
+  </g>
+  <g id="i-phone" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3z"/>
+  </g>
+  <g id="i-mail" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/>
+  </g>
+  <g id="i-insta" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+  </g>
+  <image id="logo-blend" href="images/logo-blend.png" x="0" y="0" width="100" height="100"/>
+  <image id="mark-machine" href="images/mark-machine.png" x="0" y="3" width="100" height="94"/>
+  <!-- placeholder textures -->
+  <pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <line x1="0" y1="0" x2="0" y2="9" stroke="rgba(255,255,255,.12)" stroke-width="2.5"/>
+  </pattern>
+  <pattern id="hatch-red" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+    <line x1="0" y1="0" x2="0" y2="9" stroke="rgba(255,255,255,.22)" stroke-width="2.5"/>
+  </pattern>
+</defs>
+</svg>
+
+<!-- ============ HEADER ============ -->
+<header class="header">
+  <div class="header__inner">
+    <a class="brand" href="#home">
+      <svg class="brand__mark" viewBox="0 0 100 100" role="img" aria-label="Blend Ltd logo"><use href="#logo-blend"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">Blend Ltd</span>
+        <span class="brand__sub">Barbers &middot; Tattoos &middot; Beauty</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main">
+      <a class="nav__link" href="#home">Home</a>
+      <a class="nav__link" href="#barbering">Barbering</a>
+      <a class="nav__link" href="#tattoos">Tattoos</a>
+      <a class="nav__link" href="#beauty">Beauty</a>
+      <a class="nav__link" href="#visit">Visit</a>
+      <a class="btn btn--onink" href="https://blendltd.setmore.com/book" data-mobile-only data-book target="_blank" rel="noreferrer">Book a chair</a>
+    </nav>
+
+    <a class="btn btn--onink" href="https://blendltd.setmore.com/book" data-book target="_blank" rel="noreferrer">Book a chair</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ==============================================================
+     BOOKING POLICY POP-UP  —  PLACEHOLDER WORDING
+     Replace the four points below with Blend's real policy before
+     the site goes live. Shown once per visitor; clearing the browser
+     data (or a new device) shows it again.
+     ============================================================== -->
+<div class="modal" id="policy" role="dialog" aria-modal="true" aria-labelledby="policyTitle">
+  <div class="modal__scrim" data-close-policy></div>
+  <div class="modal__card">
+    <button class="modal__close" type="button" data-close-policy aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <p class="eyebrow">Before you book</p>
+    <h2 class="h3" id="policyTitle">Our booking policy</h2>
+    <ul class="modal__list">
+      <li>Please arrive on time. If you&rsquo;re more than ten minutes late we may need to shorten your service or rebook you.</li>
+      <li>Cancelling or changing an appointment needs at least 24 hours&rsquo; notice.</li>
+      <li>Tattoo bookings are held with a deposit, which comes off the final price on the day.</li>
+      <li>If you&rsquo;re unwell, please rebook rather than come in &mdash; we work close up, and it spreads.</li>
+    </ul>
+    <div class="btn-row" style="margin-top:0">
+      <button class="btn" type="button" data-close-policy>Got it</button>
+    </div>
+  </div>
+</div>
+
+<div class="status" id="status" role="status" aria-live="polite">
+  <div class="wrap status__inner">
+    <span class="status__dot" aria-hidden="true"></span>
+    <span class="status__text" id="statusText"></span>
+  </div>
+</div>
+
+<main>
+
+<!-- ================= HOME ================= -->
+<div class="page" id="page-home" data-active="true">
+  <span class="page-anchor" id="home"></span>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">3&ndash;7 Wilbraham Street &middot; Est. 2024</p>
+          <h1 class="h1">Cuts, Ink <em>&amp; Beauty</em></h1>
+          <p class="lede">A barbershop downstairs, a private tattoo room upstairs, and beauty treatments booked into the same diary. A cut, a session or a treatment, all in one place.</p>
+          <div class="btn-row">
+            <a class="btn" href="#barbering">See cuts &amp; prices</a>
+            <a class="btn btn--ghost" href="#tattoos">Tattoo studio</a>
+          </div>
+        </div>
+
+        <div class="hero__panel">
+          <video class="hero__video" autoplay muted loop playsinline preload="metadata"
+                 poster="images/hero-poster.jpg"
+                 aria-label="The shopfront on Wilbraham Street">
+            <source src="images/hero.mp4" type="video/mp4">
+          </video>
+          <div class="hero__scrim"></div>
+          <svg class="hero__seal" viewBox="0 0 200 200" role="img" aria-label="Blend Ltd studio seal">
+            <defs><path id="sealPath" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs>
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+            <g class="seal-spin">
+              <text class="seal-text"><textPath href="#sealPath" startOffset="0">Blend Ltd &middot; Barbers &amp; Tattoo Studio &middot; Wilbraham St &middot; </textPath></text>
+            </g>
+            <g transform="translate(35 35) scale(1.30)"><use href="#logo-blend"/></g>
+          </svg>
+          <span class="hero__tag">Four barbers &middot; two tattoo artists &middot; nails &amp; aesthetics</span>
+        </div>
+      </div>
+
+      <div class="ticker">
+        <div class="ticker__track">
+          <span>Skin fades</span><span>Scissor cuts</span><span>Beard trims</span><span>Custom tattoos</span><span>Cover-ups</span><span>Brow shaping</span><span>Detox facials</span><span>Lash lifts</span>
+          <span aria-hidden="true">Skin fades</span><span aria-hidden="true">Scissor cuts</span><span aria-hidden="true">Beard trims</span><span aria-hidden="true">Custom tattoos</span><span aria-hidden="true">Cover-ups</span><span aria-hidden="true">Brow shaping</span><span aria-hidden="true">Detox facials</span><span aria-hidden="true">Lash lifts</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">What we do</p>
+        <h2 class="h2">Two crafts, one steady hand</h2>
+        <p class="lede">The same rule covers both sides of the shop: take the time it needs, and don't rush the finish.</p>
+      </div>
+
+      <div class="crafts">
+        <article class="craft" data-reveal>
+          <svg class="craft__icon" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-scissors"/></svg>
+          <h3 class="h3">Barbering</h3>
+          <p>Cuts, fades, beard work and traditional wet shaves. Appointments open six weeks ahead, and we hold a few walk-in slots back each day for whoever needs them.</p>
+          <ul class="craft__list">
+            <li>Skinfade</li><li>Scissor cut</li><li>Beard trim</li><li>Hair &amp; beard</li><li>Under 16s</li>
+          </ul>
+          <div class="btn-row"><a class="btn btn--ghost" href="#barbering">Prices &amp; booking</a></div>
+        </article>
+
+        <article class="craft" data-reveal>
+          <svg class="craft__icon" viewBox="0 0 100 100" aria-hidden="true"><use href="#mark-machine"/></svg>
+          <h3 class="h3">Tattooing</h3>
+          <p>Two resident artists working to custom designs. Every booking starts with a free consultation, so you see the drawing before the machine goes on.</p>
+          <ul class="craft__list">
+            <li>Traditional</li><li>Fine line</li><li>Black &amp; grey</li><li>Cover-ups</li><li>Flash</li>
+          </ul>
+          <div class="btn-row"><a class="btn btn--ghost" href="#tattoos">Into the studio</a></div>
+        </article>
+
+        <article class="craft" data-reveal>
+          <svg class="craft__icon" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-sprig"/></svg>
+          <h3 class="h3">Beauty</h3>
+          <p>Brows, lashes, skin and waxing, booked into the same diary as the chairs &mdash; so you can pair a treatment with a cut in one trip.</p>
+          <ul class="craft__list">
+            <li>Brows</li><li>Lashes</li><li>Facials</li><li>Waxing</li>
+          </ul>
+          <div class="btn-row"><a class="btn btn--ghost" href="#beauty">Beauty menu</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ink">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">The team</p>
+        <h2 class="h2">Who's on the chairs</h2>
+      </div>
+
+      <!-- ==========================================================
+           TEAM PHOTOS
+           Macy is still a placeholder. To add her, drop a square photo
+           into the images folder as team-macy.jpg, then replace her
+           placeholder svg block with:
+           <img src="images/team-macy.jpg" alt="Macy, nails at Blend Ltd">
+           ========================================================== -->
+      <div class="team">
+        <div class="team-group">
+          <h3 class="team-group__title">Barbers</h3>
+        </div>
+        <div class="team-row">
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-josh.jpg" alt="Josh, barber and owner at Blend Ltd"></div>
+            <figcaption>
+              <span class="member__name">Josh</span>
+              <span class="member__role">Barber &middot; Owner</span>
+            </figcaption>
+          </figure>
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-dan.jpg" alt="Dan, barber at Blend Ltd"></div>
+            <figcaption>
+              <span class="member__name">Dan</span>
+              <span class="member__role">Barber</span>
+              <span class="member__note">12 years experience in barbering</span>
+            </figcaption>
+          </figure>
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-roxy.jpg" alt="A fade cut by Roxy, barber at Blend Ltd"></div>
+            <figcaption>
+              <span class="member__name">Roxy</span>
+              <span class="member__role">Barber</span>
+            </figcaption>
+          </figure>
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-megan.jpg" alt="Megan, barber at Blend Ltd"></div>
+            <figcaption>
+              <span class="member__name">Megan</span>
+              <span class="member__role">Barber</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="team-group">
+          <h3 class="team-group__title">Tattoo artists</h3>
+        </div>
+        <div class="team-row">
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-ruby.jpg" alt="Ruby G Tattoo logo"></div>
+            <figcaption>
+              <span class="member__name">Ruby</span>
+              <span class="member__role">Tattoo artist</span>
+            </figcaption>
+          </figure>
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-adam.jpg" alt="Adam, tattoo artist at Blend Ltd"></div>
+            <figcaption>
+              <span class="member__name">Adam</span>
+              <span class="member__role">Tattoo artist</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="team-group">
+          <h3 class="team-group__title">Beauty</h3>
+        </div>
+        <div class="team-row">
+          <figure class="member" data-reveal>
+            <div class="avatar"><svg viewBox="0 0 200 200" role="img" aria-label="Portrait placeholder"><circle cx="100" cy="100" r="100" fill="#191919"/><circle cx="100" cy="100" r="100" fill="url(#hatch)"/><circle cx="100" cy="82" r="34" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/><path d="M42 178c0-32 26-56 58-56s58 24 58 56" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3"/></svg></div>
+            <figcaption>
+              <span class="member__name">Macy</span>
+              <span class="member__role">Nails</span>
+            </figcaption>
+          </figure>
+          <figure class="member" data-reveal>
+            <div class="avatar"><img src="images/team-jessica.jpg" alt="Jessica, aesthetics at Blend Ltd"></div>
+            <figcaption>
+              <span class="member__name">Jessica</span>
+              <span class="member__role">Aesthetics</span>
+              <span class="member__note">Bespoke aesthetics treatments</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="wrap">
+      <div class="head" style="text-align:center;margin-inline:auto" data-reveal>
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h2">What people say</h2>
+      </div>
+      <!-- Google reviews (Featurable widget). To restyle or relink it,
+           edit the widget in the Featurable dashboard - no change needed here. -->
+      <div id="featurable-b73ea967-514c-4823-add2-e9b922b2062a" data-featurable-async></div>
+      <script src="https://cdn.featurable.com/widget/v2/embed.js" defer charset="UTF-8"></script>
+
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn--ghost" href="https://www.instagram.com/blend_est.24/" target="_blank" rel="noreferrer">See us on Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="callout" data-reveal>
+        <h2 class="h2">Chairs fill up on Fridays and Saturdays.</h2>
+        <a class="btn" href="https://blendltd.setmore.com/book" data-book target="_blank" rel="noreferrer">Book a chair</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= BARBERING ================= -->
+<div class="page" id="page-barbering">
+  <span class="page-anchor" id="barbering"></span>
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Barbering</p>
+        <h2 class="h2">Cuts, beards and shaves</h2>
+        <p class="lede">Every service books straight into the diary &mdash; choose one below and you&rsquo;ll go through to pick your barber and time.</p>
+      </div>
+
+      <div class="cols-2">
+        <div data-reveal>
+          <h3 class="pricelist__head">Cuts</h3>
+          <div class="pricelist">
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=s8cc84fe32ad24429622c64e397e81ff6687f80d8" target="_blank" rel="noreferrer">Gent&rsquo;s Haircut</a>
+            <span class="price__fig">£20</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=s8cc84fe32ad24429622c64e397e81ff6687f80d8" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=05751093-b6e3-47ea-94ae-462f3a194a20" target="_blank" rel="noreferrer">Skinfade</a>
+            <span class="price__fig">£23</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=05751093-b6e3-47ea-94ae-462f3a194a20" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=39a7ed25-4d43-4550-afe8-71342a7a9e94" target="_blank" rel="noreferrer">Scissor Cut</a>
+            <span class="price__fig">£25</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=39a7ed25-4d43-4550-afe8-71342a7a9e94" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=0e2f1e3b-99be-4e4d-9a03-1cc5d346d486" target="_blank" rel="noreferrer">Under 16&rsquo;s Cut</a>
+            <span class="price__fig">£15</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=0e2f1e3b-99be-4e4d-9a03-1cc5d346d486" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=ec3dd87d-be1d-4e26-af5f-d27f80f1e54f" target="_blank" rel="noreferrer">OAP</a>
+            <span class="price__fig">£15</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=ec3dd87d-be1d-4e26-af5f-d27f80f1e54f" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          </div>
+        </div>
+
+        <div data-reveal>
+          <h3 class="pricelist__head">Beard &amp; extras</h3>
+          <div class="pricelist">
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=5be060d0-edc9-4eac-aa1c-0713b7e494ad" target="_blank" rel="noreferrer">Beard Trim</a>
+            <span class="price__fig">£5</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=5be060d0-edc9-4eac-aa1c-0713b7e494ad" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=c942f151-18a4-47b9-ab59-0ab1d8c1172a" target="_blank" rel="noreferrer">Hair &amp; Beard</a>
+            <span class="price__fig">£25</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=c942f151-18a4-47b9-ab59-0ab1d8c1172a" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=60ff5c4b-536b-420d-b33b-a9c3986a96df" target="_blank" rel="noreferrer">Waxing</a>
+            <span class="price__fig">£7</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=60ff5c4b-536b-420d-b33b-a9c3986a96df" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          <div class="price">
+            <a class="price__name" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=6d60f920-80e1-40c1-a799-88fb81e5f60f" target="_blank" rel="noreferrer">Detox Facial</a>
+            <span class="price__fig">£15</span>
+            <a class="price__book" href="https://blendltd.setmore.com/book?step=staff&amp;type=service&amp;products=6d60f920-80e1-40c1-a799-88fb81e5f60f" target="_blank" rel="noreferrer">Book online</a>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row"><a class="btn" href="https://blendltd.setmore.com/book" data-book target="_blank" rel="noreferrer">Book a chair</a><a class="btn btn--ghost" href="#tattoos">Tattoo studio</a></div>
+    </div>
+  </section>
+
+  <section class="section section--ink">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">Good to know</p>
+        <h2 class="h2">How booking works</h2>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal><p class="step__no">Step one</p><h3 class="h3">Pick a barber</h3><p class="small muted">Book with whoever you usually see, or leave it as "first available" and we'll put you with the first free chair.</p></div>
+        <div class="step" data-reveal><p class="step__no">Step two</p><h3 class="h3">Hold the slot</h3><p class="small muted">Appointments are held with a card on file. Nothing is taken unless you no-show or cancel inside 24 hours.</p></div>
+        <div class="step" data-reveal><p class="step__no">Step three</p><h3 class="h3">Turn up on time</p><p class="small muted">Arrive within ten minutes of your slot. After that we may need to shorten the cut or move you to the next gap.</p></div>
+      </div>
+      <div class="btn-row"><a class="btn btn--onink" href="https://blendltd.setmore.com/book" data-book target="_blank" rel="noreferrer">Book a chair</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= TATTOOS ================= -->
+<div class="page" id="page-tattoos">
+  <span class="page-anchor" id="tattoos"></span>
+
+  <section class="section section--ink">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">The attic</p>
+          <h2 class="h1">Tattoo <em style="font-style:normal;color:var(--ochre);display:block">Studio</em></h2>
+          <p class="lede">A private, licensed room above the shop floor. Custom work is drawn for you and booked in sessions with Ruby or Adam.</p>
+          <div class="btn-row">
+            <a class="btn btn--onink" href="https://blendltd.setmore.com/team/EkpH6PJB7ipidQwE7cgjHF44IVvnA98E?step=time-slot&amp;products=d76a5d70-2ddf-4fd2-99d6-424f9b561838&amp;type=service&amp;staff=EkpH6PJB7ipidQwE7cgjHF44IVvnA98E&amp;staffSelected=false" target="_blank" rel="noreferrer">Book a consultation</a>
+            <a class="btn btn--ghost-onink" href="#work">See their work</a>
+          </div>
+        </div>
+        <div class="hero__panel" style="background:var(--ink-2)">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Tattoo machine illustration">
+            <rect width="200" height="200" fill="url(#hatch-red)"/>
+            <g class="invert" transform="translate(100 100) scale(1.5) translate(-50 -50)"><use href="#mark-machine"/></g>
+          </svg>
+          <span class="hero__tag">Licensed &middot; single-use needles</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ink" id="work" style="padding-top:0">
+    <div class="wrap">
+
+      <!-- ==========================================================
+           ARTIST GALLERIES
+           Replace each placeholder <svg> with:
+           <img src="images/ruby-01.jpg" alt="Tattoo by Ruby">
+           Square photos crop best. Add or delete <figure> blocks freely.
+           ========================================================== -->
+
+      <div class="head" data-reveal>
+        <p class="eyebrow">Ruby</p>
+        <h2 class="h2">Ruby&rsquo;s work</h2>
+      </div>
+      <div class="gallery" data-reveal>
+          <figure><img src="images/ruby-01.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-02.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-03.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-04.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-05.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-06.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-07.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-08.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-09.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-10.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-11.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-12.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-13.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-14.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/ruby-15.jpg" alt="Tattoo by Ruby at Blend Ltd" loading="lazy"></figure>
+      </div>
+
+      <div class="head" style="margin-top:var(--sect)" data-reveal>
+        <p class="eyebrow">Adam</p>
+        <h2 class="h2">Adam&rsquo;s work</h2>
+      </div>
+      <div class="gallery" data-reveal>
+          <figure><img src="images/adam-01.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-02.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-03.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-04.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-05.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-06.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-07.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-08.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-09.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-10.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-11.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-12.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-13.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-14.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+          <figure><img src="images/adam-15.jpg" alt="Tattoo by Adam at Blend Ltd" loading="lazy"></figure>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn--onink" href="#book-tattoo">Book a consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">Custom work</p>
+        <h2 class="h2">From idea to healed</h2>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal>
+          <p class="step__no">Step one</p><h3 class="h3">Consultation</h3>
+          <p class="small muted">Free, twenty minutes, in the shop or over video. Bring references, rough sizes and the spot on your body you have in mind. We'll talk through what will and won't age well.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step__no">Step two</p><h3 class="h3">Design &amp; deposit</h3>
+          <p class="small muted">A £50 deposit books your date and covers drawing time. You see the design before the day and get one round of changes; the deposit comes off your final total.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step__no">Step three</p><h3 class="h3">Session day</h3>
+          <p class="small muted">Eat beforehand, bring ID and something to drink. Long pieces are split across sessions with breaks whenever you need them.</p>
+        </div>
+      </div>
+
+      <div class="cols-2" style="margin-top:var(--gap)">
+        <div class="pricelist" data-reveal>
+          <div class="price"><span class="price__name">Half day</span><span class="price__fig">£180<small>3 hours</small></span></div>
+          <div class="price"><span class="price__name">Day sitting</span><span class="price__fig">£250<small>5 hours</small></span></div>
+        </div>
+        <div class="pricelist" data-reveal>
+          <div class="price"><span class="price__name">Day sitting</span><span class="price__fig">£300<small>6 hours</small></span></div>
+          <div class="price"><span class="price__name">Full day</span><span class="price__fig">£400<small>8 hours</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">Aftercare &amp; rules</p>
+        <h2 class="h2">The bits worth reading</h2>
+      </div>
+      <div data-reveal style="max-width:75ch">
+        <details open>
+          <summary>How do I look after a fresh tattoo?</summary>
+          <p>Keep the wrap on for the first few hours, then wash gently with unscented soap and warm water and pat dry. A thin layer of aftercare balm, twice a day, for two weeks. No picking, no scratching, and let it flake off on its own.</p>
+        </details>
+        <details>
+          <summary>What should I avoid while it heals?</summary>
+          <p>No swimming pools, baths, saunas or gym mats for two weeks, and keep it out of direct sun. Loose clothing over the area. Once it's healed, sunscreen is the single best thing for keeping the colour sharp.</p>
+        </details>
+        <details>
+          <summary>Do you take under-18s?</summary>
+          <p>No. Tattooing anyone under 18 is illegal in the UK, with or without a parent's consent. Bring photo ID to your first session — passport, driving licence or PASS card.</p>
+        </details>
+        <details>
+          <summary>Can you cover or fix an old tattoo?</summary>
+          <p>Often, yes. Send a clear, well-lit photo with your enquiry and we'll tell you honestly whether a cover-up will work, whether it needs laser fading first, or whether a reworking would look better.</p>
+        </details>
+        <details>
+          <summary>What if I need to move my session?</summary>
+          <p>Let us know at least 48 hours ahead and your deposit moves with you. Inside 48 hours, or a second reschedule, and the deposit is used to cover the empty chair and drawing time.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ink" id="book-tattoo">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">Enquiries</p>
+        <h2 class="h2">Tell us what you're thinking</h2>
+        <p class="lede">The more detail you give, the more useful our reply. We answer enquiries on Tuesdays and Thursdays.</p>
+      </div>
+
+      <div class="form" id="tattoo-form" data-reveal>
+        <div class="field-row">
+          <div class="field"><label for="t-name">Your name</label><input id="t-name" type="text" autocomplete="name"></div>
+          <div class="field"><label for="t-contact">Email or mobile</label><input id="t-contact" type="text" autocomplete="email"></div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="t-style">Style</label>
+            <select id="t-style">
+              <option>Traditional</option><option>Neo-traditional</option><option>Fine line</option>
+              <option>Black &amp; grey</option><option>Script</option><option>Cover-up</option><option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label for="t-place">Placement &amp; rough size</label><input id="t-place" type="text" placeholder="e.g. forearm, about 12cm"></div>
+        </div>
+        <div class="field"><label for="t-idea">Your idea</label><textarea id="t-idea" placeholder="What you want, any references you've seen, and whether you're covering anything up."></textarea></div>
+        <div class="btn-row" style="margin-top:8px"><button class="btn btn--onink" id="t-send" type="button">Send enquiry</button></div>
+        <p class="form__note">Placeholder form — it isn't connected to an inbox yet. Point it at your booking system or an email address before the site goes live.</p>
+      </div>
+
+      <div class="form__done" id="tattoo-done">
+        <h3 class="h3" style="margin-bottom:10px">Enquiry noted</h3>
+        <p class="small">In the finished site this would land in the studio inbox, and you'd get a reply within two working days.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= BEAUTY ================= -->
+<div class="page" id="page-beauty">
+  <span class="page-anchor" id="beauty"></span>
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Beauty</p>
+        <h2 class="h2">Brows, lashes and skin</h2>
+        <p class="lede">PLACEHOLDER &mdash; a couple of lines about the beauty side: who runs it, where in the building it happens, and how to book.</p>
+      </div>
+
+      <!-- ==========================================================
+           PLACEHOLDER BEAUTY MENU
+           Swap these for the real treatments and prices, and link each
+           name to its Setmore service the way the barbering list does.
+           ========================================================== -->
+      <div class="cols-2">
+        <div data-reveal>
+          <h3 class="pricelist__head">Brows &amp; lashes</h3>
+          <div class="pricelist">
+            <div class="price"><span class="price__name">Brow shape</span><span class="price__fig">TBC</span></div>
+            <div class="price"><span class="price__name">Brow tint</span><span class="price__fig">TBC</span></div>
+            <div class="price"><span class="price__name">Lash lift</span><span class="price__fig">TBC</span></div>
+            <div class="price"><span class="price__name">Lash tint</span><span class="price__fig">TBC</span></div>
+          </div>
+        </div>
+
+        <div data-reveal>
+          <h3 class="pricelist__head">Skin &amp; waxing</h3>
+          <div class="pricelist">
+            <div class="price"><span class="price__name">Detox Facial</span><span class="price__fig">£15</span></div>
+            <div class="price"><span class="price__name">Waxing</span><span class="price__fig">£7</span></div>
+            <div class="price"><span class="price__name">Treatment three</span><span class="price__fig">TBC</span></div>
+            <div class="price"><span class="price__name">Treatment four</span><span class="price__fig">TBC</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn" href="https://blendltd.setmore.com/book" data-book target="_blank" rel="noreferrer">Book a treatment</a>
+        <a class="btn btn--ghost" href="#visit">Find us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ink">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow">Good to know</p>
+        <h2 class="h2">Before your appointment</h2>
+      </div>
+      <div data-reveal style="max-width:75ch">
+        <details open>
+          <summary>Do I need a patch test?</summary>
+          <p>PLACEHOLDER &mdash; state which treatments need a patch test and how long beforehand. Tints and lash treatments usually need one at least 24 to 48 hours ahead.</p>
+        </details>
+        <details>
+          <summary>How should I turn up?</summary>
+          <p>PLACEHOLDER &mdash; anything to avoid on the day, such as make-up, sunbeds or fake tan.</p>
+        </details>
+        <details>
+          <summary>Changing or cancelling</summary>
+          <p>PLACEHOLDER &mdash; repeat the booking policy here so it&rsquo;s in front of people at the point of booking.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= VISIT ================= -->
+<div class="page" id="page-visit">
+  <span class="page-anchor" id="visit"></span>
+  <section class="section section--ink">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Visit</p>
+        <h2 class="h2">Find us, ring us, book in</h2>
+      </div>
+
+      <div class="visit-grid">
+        <div>
+          <h3 class="h3" style="margin-bottom:16px">Blend Ltd</h3>
+          <p class="muted" style="margin-bottom:26px">3&ndash;7 Wilbraham Street<br>Birkenhead, Wirral<br>CH41 2PZ</p>
+
+          <h4 class="mono" style="color:var(--ochre);margin-bottom:14px">Opening hours</h4>
+          <div class="hours">
+            <div class="hours__row" data-closed="true"><span class="hours__day">Monday</span><span class="hours__time">Closed</span></div>
+            <div class="hours__row"><span class="hours__day">Tuesday</span><span class="hours__time">10 - 5</span></div>
+            <div class="hours__row"><span class="hours__day">Wednesday</span><span class="hours__time">10 - 7</span></div>
+            <div class="hours__row"><span class="hours__day">Thursday</span><span class="hours__time">10 - 7</span></div>
+            <div class="hours__row"><span class="hours__day">Friday</span><span class="hours__time">10 - 7</span></div>
+            <div class="hours__row"><span class="hours__day">Saturday</span><span class="hours__time">10 - 5</span></div>
+            <div class="hours__row" data-closed="true"><span class="hours__day">Sunday</span><span class="hours__time">Closed</span></div>
+          </div>
+
+          <div class="contact-list">
+            <a href="tel:07716936933"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg><span>07716 936933</span></a>
+            <a href="mailto:admin@blendltd.net"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg><span>admin@blendltd.net</span></a>
+            <a href="https://www.instagram.com/blend_est.24/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-insta"/></svg><span>@blend_est.24</span></a>
+          </div>
+        </div>
+
+        <div>
+          <!-- To swap this for the map of the business listing itself (with the
+               Blend pin and reviews), open the shop on Google Maps, choose
+               Share > Embed a map, and paste that iframe in place of this one. -->
+          <div class="map">
+            <iframe
+              title="Map showing Blend Ltd, 3-7 Wilbraham Street, Birkenhead CH41 2PZ"
+              src="https://www.google.com/maps?q=3-7%20Wilbraham%20Street%2C%20Birkenhead%2C%20CH41%202PZ&amp;z=16&amp;output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <a class="map__link" href="https://www.google.com/maps/dir/?api=1&amp;destination=3-7+Wilbraham+Street+Birkenhead+CH41+2PZ" target="_blank" rel="noreferrer">Get directions</a>
+
+          <!-- ==========================================================
+               SETMORE BOOKING PAGE GOES HERE
+               To let people book without leaving the site, paste the iframe
+               from Setmore (Integrations > Website Booking > Booking Widget)
+               into the div below, then delete the placeholder form under it.
+               ========================================================== -->
+          <div id="setmore-booking"></div>
+
+          <h3 class="h3" style="margin:34px 0 8px">Book a chair</h3>
+          <p class="small muted" style="margin-bottom:22px">Send a request and we'll confirm by text, or ring the shop if you want something today.</p>
+
+          <div class="form" id="book-form">
+            <div class="field-row">
+              <div class="field"><label for="b-name">Your name</label><input id="b-name" type="text" autocomplete="name"></div>
+              <div class="field"><label for="b-phone">Mobile</label><input id="b-phone" type="tel" autocomplete="tel"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label for="b-service">Service</label>
+                <select id="b-service"><option>Gent&rsquo;s Haircut</option><option>Skinfade</option><option>Scissor Cut</option><option>Under 16&rsquo;s Cut</option><option>OAP</option><option>Beard Trim</option><option>Hair &amp; Beard</option><option>Waxing</option><option>Detox Facial</option></select>
+              </div>
+              <div class="field"><label for="b-when">Preferred day</label><input id="b-when" type="text" placeholder="e.g. Saturday morning"></div>
+            </div>
+            <div class="btn-row" style="margin-top:8px"><button class="btn btn--onink" id="b-send" type="button">Request appointment</button></div>
+            <p class="form__note">Placeholder form — connect it to your booking system before launch.</p>
+          </div>
+          <div class="form__done" id="book-done">
+            <h3 class="h3" style="margin-bottom:10px">Request noted</h3>
+            <p class="small">In the finished site this would reach the shop diary and you'd get a confirmation text.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <svg style="width:74px;height:74px;margin-bottom:14px" viewBox="0 0 100 100" role="img" aria-label="Blend Ltd logo"><use href="#logo-blend"/></svg>
+        <span class="brand__name" style="font-size:26px;display:block">Blend Ltd</span>
+        <span class="brand__sub" style="margin-top:8px">Barbers &middot; Tattoos &middot; Beauty</span>
+        <p class="small muted" style="margin-top:14px;max-width:34ch">Barbershop and tattoo studio, 3&ndash;7 Wilbraham Street, Birkenhead. Walk ins available.</p>
+        <div class="btn-row"><a class="btn btn--onink" href="https://blendltd.setmore.com/book" data-book target="_blank" rel="noreferrer">Book a chair</a></div>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#barbering">Barbering</a></li>
+          <li><a href="#tattoos">Tattoos</a></li>
+          <li><a href="#beauty">Beauty</a></li>
+          <li><a href="#visit">Visit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="tel:07716936933">07716 936933</a></li>
+          <li><a href="mailto:admin@blendltd.net">admin@blendltd.net</a></li>
+          <li><a href="https://www.instagram.com/blend_est.24/" target="_blank" rel="noreferrer">@blend_est.24</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Opening hours</h4>
+        <ul class="footer__hours">
+          <li data-closed="true"><span class="day">Monday</span><span class="time">Closed</span></li>
+          <li><span class="day">Tuesday</span><span class="time">10 - 5</span></li>
+          <li><span class="day">Wednesday</span><span class="time">10 - 7</span></li>
+          <li><span class="day">Thursday</span><span class="time">10 - 7</span></li>
+          <li><span class="day">Friday</span><span class="time">10 - 7</span></li>
+          <li><span class="day">Saturday</span><span class="time">10 - 5</span></li>
+          <li data-closed="true"><span class="day">Sunday</span><span class="time">Closed</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span>&copy; 2026 Blend Ltd &middot; Est. 2024</span>
+      <span>Licensed tattoo premises</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  document.documentElement.classList.add("js");
+
+  /* ---------- Setmore booking ----------
+     Paste the shop's Setmore Booking Page link between the quotes, e.g.
+     "https://blend.setmore.com". Every "Book a chair" button then opens it.
+     Left empty, the buttons go to the Visit page instead. */
+  var BOOKING_URL = "https://blendltd.setmore.com/book";
+
+  if (BOOKING_URL){
+    Array.prototype.forEach.call(document.querySelectorAll("[data-book]"), function(a){
+      a.setAttribute("href", BOOKING_URL);
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noreferrer");
+    });
+  }
+
+  /* ---------- routing ---------- */
+  var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
+  var links = Array.prototype.slice.call(document.querySelectorAll(".nav__link"));
+  var nav = document.getElementById("nav");
+  var burger = document.getElementById("burger");
+
+  var PAGE_ANCHORS = { "book-tattoo": "tattoos", "work": "tattoos" };
+
+  function pageIdFor(target){
+    var t = (target || "home").replace("#", "");
+    if (PAGE_ANCHORS[t]) return PAGE_ANCHORS[t];
+    return document.getElementById("page-" + t) ? t : null;
+  }
+
+
+  function show(target, scroll){
+    var id = pageIdFor(target) || "home";
+    pages.forEach(function(p){ p.setAttribute("data-active", p.id === "page-" + id ? "true" : "false"); });
+    links.forEach(function(a){
+      if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current","page");
+      else a.removeAttribute("aria-current");
+    });
+    closeMenu();
+    reveal(document.getElementById("page-" + id));
+    if (scroll) window.scrollTo(0, 0);
+    return id;
+  }
+
+  /* Clicks drive the routing directly, so the site still works in previews
+     and sandboxes where changing the address hash is blocked. */
+  document.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var target = a.getAttribute("href").slice(1);
+    if (!target || target === "top") return;
+    var page = pageIdFor(target);
+    if (!page) return;
+    e.preventDefault();
+    show(target, true);
+    try { history.replaceState(null, "", "#" + target); } catch (err) {}
+    if (!document.getElementById("page-" + target)){
+      var anchor = document.getElementById(target);
+      if (anchor) anchor.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  function route(scroll){ show(location.hash, scroll); }
+  window.addEventListener("hashchange", function(){ route(true); });
+
+  /* ---------- mobile menu ---------- */
+  function closeMenu(){
+    nav.removeAttribute("data-open");
+    burger.setAttribute("aria-expanded","false");
+    document.body.style.overflow = "";
+  }
+  burger.addEventListener("click", function(){
+    var open = nav.getAttribute("data-open") === "true";
+    if (open) { closeMenu(); }
+    else {
+      nav.setAttribute("data-open","true");
+      burger.setAttribute("aria-expanded","true");
+      document.body.style.overflow = "hidden";
+    }
+  });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeMenu(); });
+
+  /* ---------- scroll reveal ---------- */
+  var io = null;
+  if ("IntersectionObserver" in window){
+    io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add("is-in"); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+  }
+  function reveal(scope){
+    if (!scope) return;
+    var items = scope.querySelectorAll("[data-reveal]");
+    Array.prototype.forEach.call(items, function(el){
+      if (io) io.observe(el); else el.classList.add("is-in");
+    });
+  }
+
+  /* ---------- open / closed status ----------
+     Hours are read in UK time so the bar is right for the shop, not the visitor.
+     CLOSED_DATES overrides the weekly hours: add or remove dates as needed. */
+  var HOURS = [null, null, [10, 17], [10, 19], [10, 19], [10, 19], [10, 17]]; // Sun..Sat
+  var DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  var CLOSED_DATES = {
+    "2026-01-01": "New Year's Day",
+    "2026-04-03": "Good Friday",
+    "2026-04-06": "Easter Monday",
+    "2026-05-04": "the early May bank holiday",
+    "2026-05-25": "the spring bank holiday",
+    "2026-08-31": "the summer bank holiday",
+    "2026-12-25": "Christmas Day",
+    "2026-12-26": "Boxing Day",
+    "2026-12-28": "the Boxing Day bank holiday",
+    "2027-01-01": "New Year's Day"
+  };
+
+  function ukNow(){
+    var d = new Date();
+    try {
+      var parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/London", weekday: "short", year: "numeric", month: "2-digit",
+        day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false
+      }).formatToParts(d);
+      var get = function(t){ return parts.filter(function(p){ return p.type === t; })[0].value; };
+      return {
+        day: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(get("weekday").slice(0,3)),
+        mins: (parseInt(get("hour"), 10) % 24) * 60 + parseInt(get("minute"), 10),
+        y: +get("year"), m: +get("month"), d: +get("day")
+      };
+    } catch (err) {
+      return { day: d.getDay(), mins: d.getHours()*60 + d.getMinutes(),
+               y: d.getFullYear(), m: d.getMonth()+1, d: d.getDate() };
+    }
+  }
+
+  function pad(n){ return (n < 10 ? "0" : "") + n; }
+
+  function dateAhead(now, offset){
+    var dt = new Date(Date.UTC(now.y, now.m - 1, now.d + offset));
+    return { iso: dt.getUTCFullYear() + "-" + pad(dt.getUTCMonth()+1) + "-" + pad(dt.getUTCDate()),
+             dayOfMonth: dt.getUTCDate(), month: dt.getUTCMonth() };
+  }
+
+  function clockLabel(mins){
+    var hr = Math.floor(mins / 60), mn = mins % 60;
+    var suffix = hr >= 12 ? "pm" : "am";
+    var display = hr % 12 === 0 ? 12 : hr % 12;
+    return display + (mn ? ":" + pad(mn) : "") + suffix;
+  }
+
+  function gapLabel(total){
+    if (total < 1) return "in under a minute";
+    if (total < 60) return "in " + total + (total === 1 ? " minute" : " minutes");
+    var hrs = Math.floor(total / 60), mn = total % 60;
+    var out = "in " + hrs + (hrs === 1 ? " hour" : " hours");
+    if (mn) out += " " + mn + (mn === 1 ? " minute" : " minutes");
+    return out;
+  }
+
+  function updateStatus(){
+    var bar = document.getElementById("status");
+    var text = document.getElementById("statusText");
+    if (!bar || !text) return;
+
+    var now = ukNow();
+    var todayHours = HOURS[now.day];
+    var todayHoliday = CLOSED_DATES[dateAhead(now, 0).iso];
+
+    if (todayHours && !todayHoliday && now.mins >= todayHours[0]*60 && now.mins < todayHours[1]*60){
+      var left = todayHours[1]*60 - now.mins;
+      bar.setAttribute("data-state", left <= 60 ? "soon" : "open");
+      text.innerHTML = "<b>Open</b> &middot; closes " + gapLabel(left);
+      bar.setAttribute("data-show", "true");
+      return;
+    }
+
+    var wait = null, openIdx = null, openAt = null, openDate = null;
+    for (var i = 0; i < 21; i++){
+      var d = (now.day + i) % 7, hrs = HOURS[d], date = dateAhead(now, i);
+      if (!hrs || CLOSED_DATES[date.iso]) continue;
+      var start = i*1440 + hrs[0]*60 - now.mins;
+      if (start > 0){ wait = start; openIdx = i; openAt = hrs[0]*60; openDate = date; break; }
+    }
+
+    bar.setAttribute("data-state", "closed");
+    var head = "<b>Closed</b>" + (todayHoliday && todayHours ? " for " + todayHoliday : "");
+    if (wait === null) text.innerHTML = head;
+    else if (wait <= 720 && !todayHoliday) text.innerHTML = head + " &middot; opens " + gapLabel(wait);
+    else {
+      var when = openIdx === 1 ? "tomorrow"
+        : openIdx < 7 ? DAYS[(now.day + openIdx) % 7]
+        : DAYS[(now.day + openIdx) % 7] + " " + openDate.dayOfMonth + " " + MONTHS[openDate.month];
+      text.innerHTML = head + " &middot; opens " + when + " at " + clockLabel(openAt);
+    }
+    bar.setAttribute("data-show", "true");
+  }
+  updateStatus();
+  setInterval(updateStatus, 30000);
+
+  /* ---------- booking policy modal ---------- */
+  var policy = document.getElementById("policy");
+  if (policy){
+    var SEEN_KEY = "blend-policy-seen";
+    var seen = false;
+    try { seen = localStorage.getItem(SEEN_KEY) === "1"; } catch (err) {}
+
+    var closePolicy = function(){
+      policy.removeAttribute("data-open");
+      document.body.style.overflow = "";
+      try { localStorage.setItem(SEEN_KEY, "1"); } catch (err) {}
+    };
+
+    if (!seen){
+      setTimeout(function(){
+        policy.setAttribute("data-open", "true");
+        document.body.style.overflow = "hidden";
+        var btn = policy.querySelector(".btn");
+        if (btn) btn.focus();
+      }, 600);
+    }
+
+    Array.prototype.forEach.call(policy.querySelectorAll("[data-close-policy]"), function(el){
+      el.addEventListener("click", closePolicy);
+    });
+    document.addEventListener("keydown", function(e){
+      if (e.key === "Escape" && policy.getAttribute("data-open") === "true") closePolicy();
+    });
+  }
+
+  /* ---------- placeholder forms ---------- */
+  function wire(btnId, formId, doneId){
+    var btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener("click", function(){
+      document.getElementById(formId).style.display = "none";
+      document.getElementById(doneId).setAttribute("data-show","true");
+    });
+  }
+  wire("t-send","tattoo-form","tattoo-done");
+  wire("b-send","book-form","book-done");
+
+  route(false);
+})();
+</script>
+</body>
+</html>
